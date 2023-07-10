@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2> Agregar Producto</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <form action="{% url 'producto' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="titulo" placeholder="titulo" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="descripcion" placeholder=" descripcion" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="number" name="precioinicial" placeholder="Precio Inicial" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="imagenurl" placeholder="URL Imagen" >
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="categoria" placeholder="Categoria" >
+        </div>
+<<<<<<< HEAD
+        <input class="form-control" type="text" name="vendedor" value="{{user.id}}" hidden >
+        <input class="form-control" type="text" name="precioactual" value="0" hidden >
+=======
+        <input hidden  type="number" name="precioactual" value="0">
+        <input class="form-control" type="text" name="vendedor" value="{{user.id}}" readonly>
+
+>>>>>>> 53acd676d29f563810acc5063e8f9407610a1210
+        <input class="btn btn-primary" type="submit" value="agregar producto">
+    </form>
+
+{% endblock %}
