@@ -17,9 +17,19 @@ class Producto(models.Model):
     precioactual = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.id}: {self.titulo} {self.descripcion} {self.precioinicial}$ {self.imagenurl} {self.categoria} {self.vendido} {self.vendedor}"
+        return f"{self.id}: {self.titulo} {self.descripcion} {self.precioinicial}$  {self.categoria} {self.vendido} {self.vendedor}"
 
 class Oferta(models.Model):
     oferta= models.IntegerField(default=False)
     producto_id= models.IntegerField()
     comprador_id= models.IntegerField(default=False)
+
+    def __str__(self):
+        return f"oferta:{self.oferta}$ producto_id:{self.producto_id} comprador_id:{self.comprador_id}"
+
+class Comentario(models.Model):
+    producto_id = models.IntegerField()
+    comentador_id= models.IntegerField()
+    comentario= models.CharField(max_length=1000)
+    def __str__(self):
+        return f"usuario que comento: {self.comentador_id} comentario:{self.comentario}"

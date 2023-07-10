@@ -70,7 +70,6 @@ def register(request):
 def producto(request):
     if request.method == "POST":
         form = ProductoForm(request.POST)
-        producto = Producto.objets.get(id=form.producto_id)
 
         if form.is_valid():
             form.save()
@@ -93,13 +92,15 @@ def articulo(request, producto_id):
     if request.method == "POST":
         form = OfertaForm(request.POST)
         oferta = request.POST['oferta']
-        if form.is_valid:
-            if int(oferta) <= producto.precioactual:
-                return HttpResponse("no seas boludo si no le ganas a la otra oferta")
-            else:
+        if form.is_valid():
+            if int(oferta) > producto.precioactual and int(oferta) >= producto.precioinicial:
+                form.save()
                 producto.precioactual = oferta
                 producto.save()
-                form.save()
+                
+            else:
+                return HttpResponse("no seas boludo si no le ganas a la otra oferta")
+                
         return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
         
     else:

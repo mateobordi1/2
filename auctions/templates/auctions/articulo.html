@@ -11,7 +11,7 @@
     </div>
     <div>
 
-        <h4 style="color:red">{{producto.precioinicial}} </h4>
+        <h4 style="color:red">precio base:{{producto.precioinicial}} </h4>
     </div>
     <div>
         <h4 style="color:darkgreen">precio actual:{{producto.precioactual}} </h4>
@@ -29,6 +29,12 @@
         <input type="numer" name="comprador_id" value="{{user.id}}" readonly>
         <input type="submit" value="Hacer Oferta">
     </form>
+
+    <form action="" method="post">
+        {% csrf_token %}
+    </form>
+
+
 </div>
 {% if message %}
     {{message}}
