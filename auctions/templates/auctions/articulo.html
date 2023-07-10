@@ -1,38 +1,32 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-<<<<<<< HEAD
+
 {% if cliente %}
-=======
->>>>>>> 53acd676d29f563810acc5063e8f9407610a1210
+
 <div class="contenedor" style="background-color: lightblue;border: 2px solid black; padding: 10px;">
     <h5>{{producto.titulo}}</h5>
     <div>
         <p>{{producto.descripcion}} </p>
     </div>
     <div>
-<<<<<<< HEAD
+
         <h4 style="color:red">{{producto.precioinicial}} </h4>
     </div>
     <div>
         <h4 style="color:darkgreen">precio actual:{{producto.precioactual}} </h4>
-=======
-        precio inicial: <h4 style="color:red">{{producto.precioinicial}}$ </h4>
-    </div>
-    <div>
-        precio actual:<h4 style="color:darkgreen">{{producto.precioinicial}}$ </h4>
->>>>>>> 53acd676d29f563810acc5063e8f9407610a1210
+
     </div>
     <div>
         <img src="{{producto.imagenurl}}">
     </div>
-<<<<<<< HEAD
+
     <h4> vendedor:  {{producto.vendedor}} </h4>
     <form action="{% url 'articulo' producto.id %}" method="post">
         {% csrf_token %}
-        <input type="number"placeholder="Oferta">
+        <input type="number" name="oferta" placeholder="Oferta" required>
         <input type="number" name="producto_id" value="{{producto.id}}" readonly>
-        <input type="numer" name="compador_id" value="{{user.id}}" readonly>
+        <input type="numer" name="comprador_id" value="{{user.id}}" readonly>
         <input type="submit" value="Hacer Oferta">
     </form>
 </div>
@@ -47,10 +41,4 @@
 
 {% endif %}
 
-=======
-    <div>
-        vendedor:<h4 style="color:black">{{producto.vendedor}} </h4>
-    </div>
-</div>
->>>>>>> 53acd676d29f563810acc5063e8f9407610a1210
 {% endblock %}

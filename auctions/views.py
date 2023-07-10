@@ -83,29 +83,25 @@ def producto(request):
 
     else:
         form = ProductoForm()
-<<<<<<< HEAD
         user = request.user
         return render(request, 'auctions/producto.html', {
             "user": user,
             'form': form })
-=======
-        usuario= request.user
-        user = User.objects.filter(id=usuario.id)
-    return render(request, 'auctions/producto.html', {
-        "user": user,
-        'form': form })
->>>>>>> 53acd676d29f563810acc5063e8f9407610a1210
 
 def articulo(request, producto_id):
     producto = Producto.objects.get(pk= producto_id)
     if request.method == "POST":
         form = OfertaForm(request.POST)
+        oferta = request.POST['oferta']
         if form.is_valid:
-            if form.oferta <= producto.precioactual:
-                return HttpResponse("la oferta realizada no es valida, ya que no es mayor que la actual")
-
-
+            if int(oferta) <= producto.precioactual:
+                return HttpResponse("no seas boludo si no le ganas a la otra oferta")
+            else:
+                producto.precioactual = oferta
+                producto.save()
+                form.save()
         return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+        
     else:
         cliente = True
         if producto.vendedor == request.user:
