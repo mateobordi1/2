@@ -90,18 +90,19 @@ def producto(request):
 def articulo(request, producto_id):
     producto = Producto.objects.get(pk= producto_id)
     if request.method == "POST":
-        form = OfertaForm(request.POST)
-        oferta = request.POST['oferta']
-        if form.is_valid():
-            if int(oferta) > producto.precioactual and int(oferta) >= producto.precioinicial:
-                form.save()
-                producto.precioactual = oferta
-                producto.save()
-                
-            else:
-                return HttpResponse("no seas boludo si no le ganas a la otra oferta")
-                
-        return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+        if "oferta_" in request.POST:
+            form = OfertaForm(request.POST)
+            oferta = request.POST['oferta']
+            if form.is_valid():
+                if int(oferta) > producto.precioactual and int(oferta) >= producto.precioinicial:
+                    form.save()
+                    producto.precioactual = oferta
+                    producto.save()
+                    
+                else:
+                    return HttpResponse("no seas boludo si no le ganas a la otra oferta")
+                    
+            return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
         
     else:
         cliente = True
