@@ -32,8 +32,8 @@
 
     <form  action="{% url 'articulo' producto.id %}" method="post">
         {% csrf_token %}
-        <input type="number" name="comentario_producto_id" value="{{producto.id}}" readonly>
-        <input type="number" name="comentario_id_usuario" value="{{user.id}}" readonly>
+        <input type="number" name="producto_id" value="{{producto.id}}" readonly>
+        <input type="number" name="comentador_id" value="{{user.id}}" readonly>
         <input type="text" name="comentario" placeholder="comentario">
         <input type="submit" name="comentario_" value="Hacer Comentario">
     </form>
@@ -50,5 +50,10 @@
 <p>vos hiciste la publicacion wachin</p>
 
 {% endif %}
+{% for comentario in comentarios %}
+    <div>
+         {{comentario.comentador_id}} <b>  comentario: </b> {{comentario.comentario}} 
+    </div>
+{% endfor %}
 
 {% endblock %}
