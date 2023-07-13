@@ -4,8 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Producto, Comentario
-from .forms import ProductoForm, OfertaForm, ComentarioForm
+from .models import User, Producto, Comentario, Seguimiento
+from .forms import ProductoForm, OfertaForm, ComentarioForm, SeguimientoForm
 
 
 def index(request):
@@ -112,6 +112,9 @@ def articulo(request, producto_id):
                     return HttpResponse("el comentario no es valido")
 
             return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+        if "q_seguimiento" in request.POST:
+
+        if "a_seguimiento" in request.POST:
 
         
     else:
