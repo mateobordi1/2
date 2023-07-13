@@ -4,8 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, Producto
-from .forms import ProductoForm, OfertaForm
+from .models import User, Producto, Comentario
+from .forms import ProductoForm, OfertaForm, ComentarioForm
 
 
 def index(request):
@@ -103,13 +103,26 @@ def articulo(request, producto_id):
                     return HttpResponse("no seas boludo si no le ganas a la otra oferta")
                     
             return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+        if "comentario_" in request.POST:
+            form = ComentarioForm(request.POST)
+            comentario = request.POST['comentario']
+            if form.is_valid():
+                form.save()
+            else:
+                    return HttpResponse("el comentario no es valido")
+
+            return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+
         
     else:
         cliente = True
         if producto.vendedor == request.user:
             cliente = False
+        comentario = Comentario.objects.filter(producto_id=producto.id)
+        
 
         return render(request, "auctions/articulo.html", {
             "producto": producto,
-            "cliente": cliente
+            "cliente": cliente,
+            "comentarios":comentario
         })
