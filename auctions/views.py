@@ -144,7 +144,7 @@ def articulo(request, producto_id):
             form = SeguimientoForm(request.POST or None, instance=seguimiento)
             if request.method == "POST" and form.is_valid():
                 form.save()
-                return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+                return HttpResponseRedirect(reverse('lista_seguimiento' ))
 
             else:
                 return HttpResponse("no se pudo agregar a la lista de seguimiento")
