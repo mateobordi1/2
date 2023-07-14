@@ -7,14 +7,14 @@
 <div class="contenedor" style="background-color: lightblue;border: 2px solid black; padding: 10px;">
     <h5>{{producto.titulo}}</h5>
     {% if seguimiento.en_seguimiento %}
-        <form action="{% url 'quitar_seguimiento' producto.id %}" method="post">
+        <form action="{% url 'articulo' producto.id %}" method="post">
             {% csrf_token %}
             <input type="number" name="producto" value="{{producto.id}}" readonly>
             <input type="number" name="usuario" value="{{user.id}}" readonly>
             <input type="submit" name="q_seguimiento" value="Quitar de seguimiento">
         </form>
     {% else %}
-        <form action="{% url 'agregar_seguimiento' producto.id %}" method="post">
+        <form action="{% url 'articulo' producto.id %}" method="post">
             {% csrf_token %}
             <input type="number" name="producto" value="{{producto.id}}" readonly>
             <input type="number" name="usuario" value="{{user.id}}" readonly>
