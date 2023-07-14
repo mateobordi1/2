@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>lista de seguimiento</h2>
+    {% if message %}
+        {{message}}
+    {% endif %}
+    {% for producto in lista%}
+        {% if not producto.vendido %}
+            <div class="contenedor" style="background-color: lightblue;border: 2px solid black; padding: 10px;">
+                <a href="{% url 'articulo' producto.id %}" > <h5>{{producto.titulo}}</h5> </a>
+                <div>
+                    <p>{{producto.descripcion}} </p>
+                </div>
+                <div>
+                    <h4 style="color:red">precio base:{{producto.precioinicial}} </h4>
+                </div>
+                <div>
+                    <h4 style="color:darkgreen">precio actual:{{producto.precioactual}} </h4>
+            
+                </div>
+                <div>
+                    <img src="{{producto.imagenurl}}">
+                </div>
+            </div>
+        {% endif %}
+        
+        
+    {% endfor %}
+
+    
+{% endblock %}

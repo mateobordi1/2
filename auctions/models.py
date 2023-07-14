@@ -33,3 +33,8 @@ class Comentario(models.Model):
     comentario= models.CharField(max_length=1000)
     def __str__(self):
         return f"usuario que comento: {self.comentador_id} comentario:{self.comentario}"
+
+class Seguimiento(models.Model):
+    producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    en_seguimiento = models.BooleanField(default=True)

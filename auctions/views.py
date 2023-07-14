@@ -1,17 +1,27 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render,  get_object_or_404
 from django.urls import reverse
 
-from .models import User, Producto, Comentario
-from .forms import ProductoForm, OfertaForm, ComentarioForm
+from .models import User, Producto, Comentario, Seguimiento
+from .forms import ProductoForm, OfertaForm, ComentarioForm, SeguimientoForm
 
 
 def index(request):
     lista = Producto.objects.all()
     return render(request, "auctions/index.html",{
         "lista": lista
+    })
+
+def lista_seguimiento(request):
+    lista = Seguimiento.objects.filter(usuario=request.user.id)
+    productos = []
+    for seguimiento in lista: 
+        producto = seguimiento.producto
+        productos.append(producto)
+    return render(request, "auctions/lista_seguimiento.html",{
+        "lista": productos
     })
 
 
@@ -113,15 +123,51 @@ def articulo(request, producto_id):
 
             return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
 
+        if "q_seguimiento" in request.POST:
+            producto = get_object_or_404(Producto, pk=producto_id)
+            seguimiento = get_object_or_404(Seguimiento, producto=producto, usuario=request.user)
+            seguimiento.en_seguimiento = False
+
+            form = SeguimientoForm(request.POST or None, instance=seguimiento)
+            if request.method == "POST" and form.is_valid():
+                seguimiento.delete()
+                return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
+
+            else:
+                return HttpResponse("no se pudo agregar a la lista de seguimiento")
+
+        if "a_seguimiento" in request.POST:
+            producto = get_object_or_404(Producto, pk=producto_id)
+            seguimiento, created = Seguimiento.objects.get_or_create(producto=producto, usuario=request.user)
+            seguimiento.en_seguimiento = True
+
+            form = SeguimientoForm(request.POST or None, instance=seguimiento)
+            if request.method == "POST" and form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('lista_seguimiento' ))
+
+            else:
+                return HttpResponse("no se pudo agregar a la lista de seguimiento")
+
+
         
     else:
         cliente = True
         if producto.vendedor == request.user:
             cliente = False
+<<<<<<< HEAD
         comentario = Comentario.objects.filter(producto_id=producto.id)        
+=======
+        comentario = Comentario.objects.filter(producto_id=producto.id)
+>>>>>>> prueba
 
+        try:
+            seguimiento = Seguimiento.objects.get(usuario=request.user.id, producto=producto.id)
+        except Seguimiento.DoesNotExist:
+            seguimiento = True
         return render(request, "auctions/articulo.html", {
             "producto": producto,
             "cliente": cliente,
-            "comentarios":comentario
+            "comentarios":comentario, 
+            "seguimiento": seguimiento
         })
