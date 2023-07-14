@@ -37,4 +37,4 @@ class Comentario(models.Model):
 class Seguimiento(models.Model):
     producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    en_seguimiento = models.BooleanField(default=False)
+    en_seguimiento = models.BooleanField(default=True)

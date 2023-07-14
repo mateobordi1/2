@@ -144,7 +144,6 @@ def articulo(request, producto_id):
             form = SeguimientoForm(request.POST or None, instance=seguimiento)
             if request.method == "POST" and form.is_valid():
                 form.save()
-                seguimiento.save()
                 return HttpResponseRedirect(reverse('articulo', args=[producto_id])  )
 
             else:

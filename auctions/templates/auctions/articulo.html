@@ -9,15 +9,16 @@
     {% if seguimiento.en_seguimiento %}
         <form action="{% url 'articulo' producto.id %}" method="post">
             {% csrf_token %}
-            <input type="number" name="producto" value="{{producto.id}}" readonly>
-            <input type="number" name="usuario" value="{{user.id}}" readonly>
+            <input type="number" name="producto" value="{{producto.id}}" readonly hidden>
+            <input type="number" name="usuario" value="{{user.id}}" readonly hidden>
             <input type="submit" name="q_seguimiento" value="Quitar de seguimiento">
         </form>
     {% else %}
         <form action="{% url 'articulo' producto.id %}" method="post">
             {% csrf_token %}
-            <input type="number" name="producto" value="{{producto.id}}" readonly>
-            <input type="number" name="usuario" value="{{user.id}}" readonly>
+            <input type="number" name="producto" value="{{producto.id}}" readonly hidden>
+            <input type="number" name="usuario" value="{{user.id}}" readonly hidden>
+            <input type="checkbox" name="en_seguimiento" value="true" checked hidden>
             <input type="submit" name="a_seguimiento" value="Agregar a seguimiento">
         </form>
     {% endif %}
