@@ -3,8 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,  get_object_or_404
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
-from .models import User, Producto, Comentario, Seguimiento
+from .models import User, Producto, Comentario, Oferta,  Seguimiento
 from .forms import ProductoForm, OfertaForm, ComentarioForm, SeguimientoForm
 
 
@@ -148,6 +149,15 @@ def articulo(request, producto_id):
 
             else:
                 return HttpResponse("no se pudo agregar a la lista de seguimiento")
+        
+        if "terminar" in request.POST:
+            producto.vendido = True
+            producto.save()
+            try:
+                ganador = Oferta.objects.filter(producto_id=producto.id).latest('id')
+            except ObjectDoesNotExist:
+                ganador = None
+            return HttpResponseRedirect('index')
 
 
         
@@ -155,11 +165,7 @@ def articulo(request, producto_id):
         cliente = True
         if producto.vendedor == request.user:
             cliente = False
-<<<<<<< HEAD
-        comentario = Comentario.objects.filter(producto_id=producto.id)        
-=======
         comentario = Comentario.objects.filter(producto_id=producto.id)
->>>>>>> prueba
 
         try:
             seguimiento = Seguimiento.objects.get(usuario=request.user.id, producto=producto.id)
