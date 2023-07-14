@@ -21,14 +21,14 @@ class Producto(models.Model):
 
 class Oferta(models.Model):
     oferta= models.IntegerField(default=False)
-    producto_id= models.IntegerField()
+    producto_id= models.ForeignKey(Producto, on_delete=models.CASCADE)
     comprador_id= models.IntegerField(default=False)
 
     def __str__(self):
         return f"oferta:{self.oferta}$ producto_id:{self.producto_id} comprador_id:{self.comprador_id}"
 
 class Comentario(models.Model):
-    producto_id = models.IntegerField()
+    producto_id = models.ForeignKey(Producto, on_delete=models.CASCADE)
     comentador_id= models.IntegerField()
     comentario= models.CharField(max_length=1000)
     def __str__(self):

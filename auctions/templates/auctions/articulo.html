@@ -63,7 +63,12 @@
 {% endif %}
 
 {% if not cliente %}
-<p>vos hiciste la publicacion wachin</p>
+<form action="{% url 'articulo' producto.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" name="terminar" value="terminar subasta">
+</form>
+<p>precio inicial:{{producto.precioinicial}}</p> 
+<p>precio actual: {{producto.precioactual}} </p>
 
 {% endif %}
 {% for comentario in comentarios %}

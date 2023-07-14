@@ -148,6 +148,11 @@ def articulo(request, producto_id):
 
             else:
                 return HttpResponse("no se pudo agregar a la lista de seguimiento")
+        
+        if "terminar" in request.POST:
+            producto.vendido = True
+            producto.save()
+            return HttpResponseRedirect(reverse('index'))
 
 
         
