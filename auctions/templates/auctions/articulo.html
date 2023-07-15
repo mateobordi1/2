@@ -3,68 +3,86 @@
 {% block body %}
 
 {% if cliente %}
+    {% if not ganadores %}
 
-<div class="contenedor" style="background-color: lightblue;border: 2px solid black; padding: 10px;">
-    <h5>{{producto.titulo}}</h5>
-    {% if seguimiento.en_seguimiento %}
-        <form action="{% url 'articulo' producto.id %}" method="post">
-            {% csrf_token %}
-            <input type="number" name="producto" value="{{producto.id}}" readonly hidden>
-            <input type="number" name="usuario" value="{{user.id}}" readonly hidden>
-            <input type="submit" name="q_seguimiento" value="Quitar de seguimiento">
-        </form>
-    {% else %}
-        <form action="{% url 'articulo' producto.id %}" method="post">
-            {% csrf_token %}
-            <input type="number" name="producto" value="{{producto.id}}" readonly hidden>
-            <input type="number" name="usuario" value="{{user.id}}" readonly hidden>
-            <input type="checkbox" name="en_seguimiento" value="true" checked hidden>
-            <input type="submit" name="a_seguimiento" value="Agregar a seguimiento">
-        </form>
+        <div class="contenedor" style="background-color: lightblue;border: 2px solid black; padding: 10px;">
+            <h5>{{producto.titulo}}</h5>
+            {% if seguimiento.en_seguimiento %}
+                <form action="{% url 'articulo' producto.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="number" name="producto" value="{{producto.id}}" readonly hidden>
+                    <input type="number" name="usuario" value="{{user.id}}" readonly hidden>
+                    <input type="submit" name="q_seguimiento" value="Quitar de seguimiento">
+                </form>
+            {% else %}
+                <form action="{% url 'articulo' producto.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="number" name="producto" value="{{producto.id}}" readonly hidden>
+                    <input type="number" name="usuario" value="{{user.id}}" readonly hidden>
+                    <input type="checkbox" name="en_seguimiento" value="true" checked hidden>
+                    <input type="submit" name="a_seguimiento" value="Agregar a seguimiento">
+                </form>
+            {% endif %}
+            <div>
+                <p>{{producto.descripcion}} </p>
+            </div>
+            <div>
+
+                <h4 style="color:red">precio base:{{producto.precioinicial}} </h4>
+            </div>
+            <div>
+                <h4 style="color:darkgreen">precio actual:{{producto.precioactual}} </h4>
+
+            </div>
+            <div>
+                <img src="{{producto.imagenurl}}">
+            </div>
+
+            <h4> vendedor:  {{producto.vendedor}} </h4>
+            <form action="{% url 'articulo' producto.id %}" method="post">
+                {% csrf_token %}
+                <input type="number" name="oferta" placeholder="Oferta" required>
+                <input type="number" name="producto_id" value="{{producto.id}}" readonly>
+                <input type="numer" name="comprador_id" value="{{user.id}}" readonly>
+                <input type="submit" name="oferta_" value="Hacer Oferta">
+            </form>
+
+            <form  action="{% url 'articulo' producto.id %}" method="post">
+                {% csrf_token %}
+                <input type="number" name="producto_id" value="{{producto.id}}" readonly>
+                <input type="number" name="comentador_id" value="{{user.id}}" readonly>
+                <input type="text" name="comentario" placeholder="comentario">
+                <input type="submit" name="comentario_" value="Hacer Comentario">
+            </form>
+
+
+        </div>
+        {% if message %}
+            {{message}}
+        {% endif %}
+
+    {% else  %}
+        <p>el producto ya fue vendido y hay un ganador</p>
     {% endif %}
-    <div>
-        <p>{{producto.descripcion}} </p>
-    </div>
-    <div>
-
-        <h4 style="color:red">precio base:{{producto.precioinicial}} </h4>
-    </div>
-    <div>
-        <h4 style="color:darkgreen">precio actual:{{producto.precioactual}} </h4>
-
-    </div>
-    <div>
-        <img src="{{producto.imagenurl}}">
-    </div>
-
-    <h4> vendedor:  {{producto.vendedor}} </h4>
-    <form action="{% url 'articulo' producto.id %}" method="post">
-        {% csrf_token %}
-        <input type="number" name="oferta" placeholder="Oferta" required>
-        <input type="number" name="producto_id" value="{{producto.id}}" readonly>
-        <input type="numer" name="comprador_id" value="{{user.id}}" readonly>
-        <input type="submit" name="oferta_" value="Hacer Oferta">
-    </form>
-
-    <form  action="{% url 'articulo' producto.id %}" method="post">
-        {% csrf_token %}
-        <input type="number" name="producto_id" value="{{producto.id}}" readonly>
-        <input type="number" name="comentador_id" value="{{user.id}}" readonly>
-        <input type="text" name="comentario" placeholder="comentario">
-        <input type="submit" name="comentario_" value="Hacer Comentario">
-    </form>
-
-
-</div>
-{% if message %}
-    {{message}}
-{% endif %}
-
 {% endif %}
 
 {% if not cliente %}
-<p>vos hiciste la publicacion wachin</p>
-
+    {% if not ganadores %}
+        <div>
+            precio inicial : {{producto.precioinicial}}
+        </div>
+        <div>
+            precio actual : {{producto.precioactual}}
+        </div>
+        <form action="{% url 'articulo' producto.id %}" method="post">
+            {% csrf_token %}
+            <input type="number" name="usuario_id" value="{{user.id}}" readonly>
+            <input type="number" name="producto_id" value="{{producto.id}}" readonly>
+            <input type="submit" name="terminar" value="terminar subasta">
+        </form>
+    {% else %}
+        <p>el producto ya fue vendido y hay un ganador</p>
+    {% endif %}
 {% endif %}
 {% for comentario in comentarios %}
     <div>

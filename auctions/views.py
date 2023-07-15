@@ -5,8 +5,8 @@ from django.shortcuts import render,  get_object_or_404
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import User, Producto, Comentario, Oferta,  Seguimiento
-from .forms import ProductoForm, OfertaForm, ComentarioForm, SeguimientoForm
+from .models import User, Producto, Comentario, Oferta,  Seguimiento, Ganadores
+from .forms import ProductoForm, OfertaForm, ComentarioForm, SeguimientoForm, GanadoresForm
 
 
 def index(request):
@@ -153,15 +153,27 @@ def articulo(request, producto_id):
         if "terminar" in request.POST:
             producto.vendido = True
             producto.save()
-            try:
+            form = GanadoresForm(request.POST)
+            if form.is_valid and producto.precioinicial <= producto.precioactual :
                 ganador = Oferta.objects.filter(producto_id=producto.id).latest('id')
-            except ObjectDoesNotExist:
-                ganador = None
-            return HttpResponseRedirect('index')
+                comprador_ganador_id = User.objects.get(id=ganador.comprador_id)
+                producto_vendido_id = Producto.objects.get(id=ganador.producto_id)
+                ganadores = Ganadores()
+                ganadores.usuario_id = comprador_ganador_id
+                ganadores.producto_id = producto_vendido_id
+                ganadores.save()
+                
+                return HttpResponseRedirect(reverse('index'))
 
-
+            return HttpResponse("el producto a sido quitado de la lista activa y no hay ningun ganador de la subasta")
         
     else:
+        ganadores = False
+        try:
+            ganadores= Ganadores.objects.get(producto_id=producto.id)
+        except Ganadores.DoesNotExist:
+            ganadores = True
+
         cliente = True
         if producto.vendedor == request.user:
             cliente = False
@@ -175,5 +187,12 @@ def articulo(request, producto_id):
             "producto": producto,
             "cliente": cliente,
             "comentarios":comentario, 
-            "seguimiento": seguimiento
+            "seguimiento": seguimiento,
+            "ganadores": ganadores
         })
+
+def ganadores(request):
+    ganadores = Ganadores.objects.all()
+    return render(request, "auctions/ganadores.html",{
+        "ganadores": ganadores
+    })

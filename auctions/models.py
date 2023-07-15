@@ -38,3 +38,7 @@ class Seguimiento(models.Model):
     producto = models.ForeignKey('Producto', on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     en_seguimiento = models.BooleanField(default=True)
+
+class Ganadores(models.Model):
+    usuario_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    producto_id = models.ForeignKey('Producto', on_delete=models.CASCADE)

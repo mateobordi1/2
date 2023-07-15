@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>Ganadores de subastas</h2>
+    {% if message %}
+        {{message}}
+    {% endif %}
+    {% for ganador in ganadores%}
+        <p>{{ganador.usuario_id}}  {{ganador.producto_id}} </p>
+    {% empty %}
+        <p> no hay ganadores todavia</p>
+    {% endfor %}
+
+{% endblock %}

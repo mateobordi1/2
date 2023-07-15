@@ -1,5 +1,5 @@
 from django import forms
-from .models import Producto, Oferta , Comentario, Seguimiento
+from .models import Producto, Oferta , Comentario, Seguimiento, Ganadores
 
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -20,4 +20,9 @@ class SeguimientoForm(forms.ModelForm):
     class Meta:
         model = Seguimiento
         fields= '__all__'
+
+class GanadoresForm(forms.ModelForm):
+    class Meta:
+        model = Ganadores
+        fields = '__all__'
     
