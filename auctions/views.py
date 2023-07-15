@@ -98,7 +98,7 @@ def producto(request):
         return render(request, 'auctions/producto.html', {
             "user": user,
             'form': form })
-
+@login_required
 def articulo(request, producto_id):
     producto = Producto.objects.get(pk= producto_id)
     if request.method == "POST":
