@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,  get_object_or_404
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Producto, Comentario, Oferta,  Seguimiento, Ganadores
 from .forms import ProductoForm, OfertaForm, ComentarioForm, SeguimientoForm, GanadoresForm
@@ -77,7 +78,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-
+@login_required
 def producto(request):
     if request.method == "POST":
         form = ProductoForm(request.POST)
@@ -168,11 +169,11 @@ def articulo(request, producto_id):
             return HttpResponse("el producto a sido quitado de la lista activa y no hay ningun ganador de la subasta")
         
     else:
-        ganadores = False
+        ganadores = True
         try:
             ganadores= Ganadores.objects.get(producto_id=producto.id)
         except Ganadores.DoesNotExist:
-            ganadores = True
+            ganadores = False
 
         cliente = True
         if producto.vendedor == request.user:
