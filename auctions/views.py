@@ -197,3 +197,16 @@ def ganadores(request):
     return render(request, "auctions/ganadores.html",{
         "ganadores": ganadores
     })
+
+def categorias(request):
+    categorias = Producto.objects.values('categoria').distinct()
+    lista_categorias = [categoria['categoria'] for categoria in categorias]
+    return render(request, "auctions/categorias.html",{
+        "categorias": lista_categorias
+    })
+
+def categoria( request, categoria):
+    productos = Producto.objects.filter(categoria=categoria)
+    return render(request, "auctions/categoria.html", {
+        "productos" : productos
+    })

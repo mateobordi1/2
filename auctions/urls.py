@@ -10,5 +10,7 @@ urlpatterns = [
     path("producto", views.producto, name="producto"),
     path("<int:producto_id>", views.articulo, name="articulo" ),
     path("lista_seguimiento" , views.lista_seguimiento , name="lista_seguimiento"),
-    path("ganadores", views.ganadores, name="ganadores" )
+    path("ganadores", views.ganadores, name="ganadores" ),
+    path("categorias", views.categorias, name="categorias"),
+    path("<str:categoria>", views.categoria, name="categoria") 
 ]

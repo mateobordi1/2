@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    
+    
+    <h2>Categoria productos:</h2>
+    {% for producto in productos%}
+        <ul>
+            <a class="nav-link" href="{% url 'articulo' producto.id %}"> {{producto.titulo}} </a>
+            <img src="{{producto.imagenurl}}">
+        </ul> 
+    {% endfor %}
+
+    
+{% endblock %}
