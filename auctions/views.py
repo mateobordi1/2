@@ -206,7 +206,7 @@ def categorias(request):
     })
 
 def categoria( request, categoria):
-    productos = Producto.objects.filter(categoria=categoria)
+    productos = Producto.objects.filter(categoria=categoria , vendido= False)
     return render(request, "auctions/categoria.html", {
         "productos" : productos
     })

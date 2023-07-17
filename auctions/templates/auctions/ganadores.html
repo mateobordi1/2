@@ -7,7 +7,11 @@
         {{message}}
     {% endif %}
     {% for ganador in ganadores%}
-        <p>{{ganador.usuario_id}}  {{ganador.producto_id}} </p>
+    <div style="background-color: beige; border: solid 1px;">
+        <b>Producto vendido : </b>{{ganador.producto_id.titulo}}
+        <b> Ganador:</b> {{ganador.usuario_id.username}} 
+    </div>
+         
     {% empty %}
         <p> no hay ganadores todavia</p>
     {% endfor %}
